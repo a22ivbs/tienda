@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Cat VUE</title>
+</head>
+<body>
+    <div class="container">
+        <div id="app">
+            <div v-if="mostrar('portada')" id="portada" style="margin-top: 20px;">
+                <h1>Tienda de ventas de productos de:</h1>
+                <p>Este texto es para relleno Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum sunt voluptate amet dicta velit cumque incidunt iusto explicabo! Mollitia recusandae facere, fugiat magnam blanditiis asperiores corporis illo! Saepe, labore eum.</p>
+                <input class="btn btn-dark" type="button" value="Ver productos" @click="cambiarDiv('tienda')">
+            </div>
+            <div v-if="mostrar('tienda')" id="tienda" style="margin-top: 20px;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Contenido principal (productos) -->
+                        <div class="row">
+                            <div class="col-md-4" v-for="(product, index) in bicis" :key="index">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h2 class="card-title">{{ product.nombre }}</h2>
+                                        <p class="card-text">Año: {{ product.descripcion }}</p>
+                                        <p class="card-text">Precio: {{ product.precio }}</p>
+                                        <input class="btn btn-dark" type="button" value="Añadir al carrito" @click="agregarAlCarrito(product)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- Carrito Preview en la columna derecha -->
+                        <div v-if="mostrar('tienda')" class="carrito-preview" style="height: 100%;">
+                            <h2>Carrito de compras:</h2>
+                            <p v-for="(product, index) in carritoProductos" :key="index">
+                                {{ product.nombre }} - Cantidad: {{ product.cantidad }}
+                                <button class="btn btn-danger" @click="eliminarDelCarrito(product)">Eliminar</button>
+                            </p>
+                            <p style="font-size: 24px; font-weight: bold;">Total: €{{ calcularTotal() }}</p>
+                        </div>
+                    </div>
+                </div>
+                <input class="btn btn-dark" type="button" value="Volver a la portada" @click="cambiarDiv('portada')">
+                <input class="btn btn-dark" type="button" value="Ver carrito" @click="cambiarDiv('carrito')">
+            </div>
+            <div v-if="mostrar('carrito')" id="carrito" style="margin-top: 20px;">
+                <h2>Resumen del carrito</h2>
+                <div class="card-container">
+                    <div class="card" v-for="(product, index) in carritoProductos" :key="index">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.nombre }}</h5>
+                            <p class="card-text">Cantidad: {{ product.cantidad }}</p>
+                            <button class="btn btn-danger" @click="eliminarDelCarrito(product)">Eliminar</button>
+                        </div>
+                    </div>
+                    <p style="font-size: 24px; font-weight: bold;">Total: €{{ calcularTotal() }}</p>
+                </div>
+                <input class="btn btn-dark" type="button" value="Volver a la portada" @click="cambiarDiv('portada')">
+
+                <form @submit.prevent="guardarlocalstorage">
+                    <div class="form-group">
+                        <label for="inputnombre">Nom</label>
+                        <input type="text" class="form-control" placeholder="nombre" v-model="nombre">
+                      </div>
+                    <div class="form-group">
+                        <label for="inputemail">Email</label>
+                        <input type="email" class="form-control" placeholder="email" v-model="email">
+                    </div>
+                    <button class="btn btn-primary" @click="guardarlocalstorage">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="functions.js" type="module"></script>
+</body>
+</html>

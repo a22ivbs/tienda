@@ -1,0 +1,15 @@
+.carrito-preview {
+    flex: 1; /* Ocupa todo el espacio restante */
+  position: relative;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  z-index: 999;
+  max-height: 100vh; /* Ocupa el 100% del height de la ventana */
+  overflow-y: auto; /* Agrega desplazamiento vertical si es necesario */
+  }
+
+  .productos-container {
+    display: flex;
+  }
